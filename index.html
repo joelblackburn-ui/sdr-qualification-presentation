@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering SDR Qualification Methodologies | Zinc Work</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --zinc-pink: #F04DA9;
+            --zinc-dark: #131313;
+            --zinc-gray: #6C6C6C;
+            --zinc-blue: #0066FF;
+            --zinc-peach: #FFF5F0;
+            --green-light: #27ae60;
+            --red-light: #e74c3c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--zinc-peach);
+            color: var(--zinc-dark);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px 80px;
+            display: none;
+            flex-direction: column;
+            background: var(--zinc-peach);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-size: 14px;
+            color: var(--zinc-gray);
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--zinc-blue);
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--zinc-dark);
+        }
+
+        h1 span {
+            color: var(--zinc-pink);
+        }
+
+        h2 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--zinc-dark);
+        }
+
+        h2 span {
+            color: var(--zinc-pink);
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--zinc-blue);
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--zinc-dark);
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: var(--zinc-gray);
+        }
+
+        .subtitle {
+            font-size: 28px;
+            color: var(--zinc-gray);
+            margin-bottom: 40px;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 10px;
+            overflow: hidden;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .card h4 {
+            color: var(--zinc-blue);
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: var(--zinc-gray);
+            line-height: 1.5;
+        }
+
+        .card.stat-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .card.stat-card .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--zinc-pink);
+            margin-bottom: 10px;
+        }
+
+        .card.stat-card h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: var(--zinc-gray);
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        th {
+            background: var(--zinc-dark);
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+            color: var(--zinc-gray);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        /* Center slide (for title slides) */
+        .slide.center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Navigation dots */
+        .nav-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .nav-dot.active {
+            background: var(--zinc-pink);
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: white;
+            border-left: 4px solid var(--zinc-pink);
+            padding: 20px 25px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .highlight-box p {
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .highlight-box.warning {
+            border-left-color: var(--red-light);
+        }
+
+        /* Framework components grid */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .component-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .component-box {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .component-box .letter {
+            width: 40px;
+            height: 40px;
+            background: var(--zinc-pink);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            margin: 0 auto 10px;
+        }
+
+        .component-box .name {
+            font-weight: 600;
+            color: var(--zinc-dark);
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .component-box .desc {
+            font-size: 12px;
+            color: var(--zinc-gray);
+            line-height: 1.4;
+        }
+
+        /* Green/Red lights */
+        .lights-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .light-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .light-box.green {
+            border-top: 4px solid var(--green-light);
+        }
+
+        .light-box.red {
+            border-top: 4px solid var(--red-light);
+        }
+
+        .light-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .light-box.green h4 {
+            color: var(--green-light);
+        }
+
+        .light-box.red h4 {
+            color: var(--red-light);
+        }
+
+        .light-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .light-box li {
+            padding: 6px 0;
+            font-size: 13px;
+            color: var(--zinc-gray);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .light-box.green li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--green-light);
+            font-weight: bold;
+        }
+
+        .light-box.red li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: var(--red-light);
+            font-weight: bold;
+        }
+
+        /* Flow diagrams */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--zinc-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .flow-arrow {
+            color: var(--zinc-pink);
+            font-size: 20px;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 40px;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 25px;
+            left: 60px;
+            right: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--zinc-gray), var(--zinc-pink));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .timeline-item .year {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 3px solid var(--zinc-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--zinc-dark);
+            margin: 0 auto 15px;
+        }
+
+        .timeline-item:last-child .year {
+            background: var(--zinc-pink);
+            color: white;
+        }
+
+        .timeline-item h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--zinc-blue);
+        }
+
+        .timeline-item p {
+            font-size: 13px;
+            color: var(--zinc-gray);
+        }
+
+        /* Decision matrix */
+        .decision-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .decision-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .decision-condition {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--zinc-gray);
+        }
+
+        .decision-result {
+            background: var(--zinc-pink);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Warning slide */
+        .warning-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .warning-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+
+        .warning-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--zinc-dark);
+            margin-bottom: 20px;
+        }
+
+        .warning-title span {
+            color: var(--red-light);
+        }
+
+        .warning-subtitle {
+            font-size: 22px;
+            color: var(--zinc-gray);
+            max-width: 700px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .fix-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--green-light);
+        }
+
+        .fix-box h4 {
+            color: var(--green-light);
+            margin-bottom: 10px;
+        }
+
+        .fix-box p {
+            font-size: 16px;
+        }
+
+        /* Trend cards */
+        .trend-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .trend-card .icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .trend-card h4 {
+            color: var(--zinc-blue);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .trend-card p {
+            font-size: 14px;
+            flex: 1;
+        }
+
+        /* Summary cards */
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .summary-card .number {
+            width: 36px;
+            height: 36px;
+            background: var(--zinc-pink);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .summary-card .content h4 {
+            color: var(--zinc-dark);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .summary-card .content p {
+            font-size: 14px;
+        }
+
+        /* Framework header */
+        .framework-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .framework-badge {
+            background: var(--zinc-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- SLIDE 1: Title -->
+        <div class="slide active center">
+            <h1>Mastering SDR <span>Qualification</span></h1>
+            <h1 style="font-size: 48px;">Methodologies</h1>
+            <p class="subtitle">Navigating the 2026 Sales Landscape: From BANT to MEDDPICC & Beyond</p>
+            <p style="margin-top: 40px; font-size: 16px; color: var(--zinc-gray);">Strategic Sales Development | March 2026</p>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">1 / 14</div>
+        </div>
+
+        <!-- SLIDE 2: Why Qualification is Your Superpower -->
+        <div class="slide">
+            <h2>Why Qualification is Your <span>Superpower</span></h2>
+            <div class="content-area">
+                <div class="grid-4">
+                    <div class="card stat-card">
+                        <div class="stat-number">Filter</div>
+                        <h4>Strategic Role</h4>
+                        <p>SDRs aren't appointment setters - they're strategic filters for high-probability deals</p>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-number">35%</div>
+                        <h4>Faster Close</h4>
+                        <p>Well-qualified leads close faster than those passed through on "gut feel"</p>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-number">Health</div>
+                        <h4>Pipeline Quality</h4>
+                        <p>Reduces dead weight in CRM, leading to more accurate forecasting</p>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-number">SQMs</div>
+                        <h4>Quality Over Quantity</h4>
+                        <p>Shift from Meetings Booked to Sales-Qualified Meetings</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <p><strong>Key Insight:</strong> In 2026, the most successful SDR teams are measured by conversion quality, not just meeting volume.</p>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">2 / 14</div>
+        </div>
+
+        <!-- SLIDE 3: Evolution of Frameworks -->
+        <div class="slide">
+            <h2>The <span>Evolution</span> of Frameworks</h2>
+            <div class="content-area">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">1960s</div>
+                        <h4>BANT</h4>
+                        <p>"Old Faithful"<br>Simple & seller-centric</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">1990s</div>
+                        <h4>MEDDIC</h4>
+                        <p>Enterprise Rigor<br>Complex deal management</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2010s</div>
+                        <h4>CHAMP & GPCT</h4>
+                        <p>The "Why" Era<br>Challenges & Goals focus</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2026</div>
+                        <h4>SPICED + AI</h4>
+                        <p>Impact & Intent<br>Data-driven qualification</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 60px;">
+                    <p><strong>The Shift:</strong> From asking "Do you have budget?" to understanding "What business outcome will this unlock?"</p>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">3 / 14</div>
+        </div>
+
+        <!-- SLIDE 4: BANT -->
+        <div class="slide">
+            <div class="framework-header">
+                <h2><span>BANT</span></h2>
+                <span class="framework-badge">The "Old School" Classic</span>
+            </div>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div>
+                        <div class="component-grid" style="grid-template-columns: repeat(2, 1fr);">
+                            <div class="component-box">
+                                <div class="letter">B</div>
+                                <div class="name">Budget</div>
+                                <div class="desc">Do they have the funds?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">A</div>
+                                <div class="name">Authority</div>
+                                <div class="desc">Decision-maker or gatekeeper?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">N</div>
+                                <div class="name">Need</div>
+                                <div class="desc">Specific pain point?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">T</div>
+                                <div class="name">Timeline</div>
+                                <div class="desc">When do they need it?</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box warning" style="margin-top: 20px;">
+                            <p><strong>2026 Reality:</strong> Don't lead with Budget. In modern SaaS, most don't have a "line item" budget until after they see value.</p>
+                        </div>
+                    </div>
+                    <div class="lights-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 0;">
+                        <div class="light-box green">
+                            <h4>Use When...</h4>
+                            <ul>
+                                <li>High-velocity SMB environment</li>
+                                <li>Transactional, low price point (&lt;$10k/year)</li>
+                                <li>Need to triage leads instantly</li>
+                                <li>Speed is more important than depth</li>
+                            </ul>
+                        </div>
+                        <div class="light-box red">
+                            <h4>Avoid When...</h4>
+                            <ul>
+                                <li>Modern SaaS (no pre-demo budget)</li>
+                                <li>Strategic cold outbound</li>
+                                <li>Complex buying committees</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">4 / 14</div>
+        </div>
+
+        <!-- SLIDE 5: CHAMP -->
+        <div class="slide">
+            <div class="framework-header">
+                <h2><span>CHAMP</span></h2>
+                <span class="framework-badge">The Inbound Specialist</span>
+            </div>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div>
+                        <div class="flow">
+                            <div class="flow-step">Challenges</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Authority</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Money</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Prioritization</div>
+                        </div>
+                        <div class="component-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 20px;">
+                            <div class="component-box">
+                                <div class="letter">C</div>
+                                <div class="name">Challenges</div>
+                                <div class="desc">Start with the pain. No pain, no gain.</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">A</div>
+                                <div class="name">Authority</div>
+                                <div class="desc">Map the buying committee (6-10 people)</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">M</div>
+                                <div class="name">Money</div>
+                                <div class="desc">Discuss after value is established</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">P</div>
+                                <div class="name">Prioritization</div>
+                                <div class="desc">Nice-to-have or top-3 initiative?</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box" style="margin-top: 20px;">
+                            <p><strong>The Flip:</strong> If the Challenge is big enough, the Money will magically appear.</p>
+                        </div>
+                    </div>
+                    <div class="lights-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 0;">
+                        <div class="light-box green">
+                            <h4>Use When...</h4>
+                            <ul>
+                                <li>Handling inbound leads feeling pain</li>
+                                <li>Need is obvious, priority unclear</li>
+                                <li>Want to lead with empathy</li>
+                            </ul>
+                        </div>
+                        <div class="light-box red">
+                            <h4>Avoid When...</h4>
+                            <ul>
+                                <li>Cold outbound (they don't know their problem)</li>
+                                <li>Highly technical/procurement-heavy deals</li>
+                                <li>Complex decision processes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">5 / 14</div>
+        </div>
+
+        <!-- SLIDE 6: GPCTBA -->
+        <div class="slide">
+            <div class="framework-header">
+                <h2><span>GPCTBA</span></h2>
+                <span class="framework-badge">The Goal-Oriented Framework</span>
+            </div>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div>
+                        <div class="component-grid cols-3">
+                            <div class="component-box">
+                                <div class="letter">G</div>
+                                <div class="name">Goals</div>
+                                <div class="desc">What are their business objectives?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">P</div>
+                                <div class="name">Plans</div>
+                                <div class="desc">How do they plan to achieve them?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">C</div>
+                                <div class="name">Challenges</div>
+                                <div class="desc">What obstacles are in the way?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">T</div>
+                                <div class="name">Timeline</div>
+                                <div class="desc">When do goals need to be achieved?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">B</div>
+                                <div class="name">Budget</div>
+                                <div class="desc">Investment capacity?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">A</div>
+                                <div class="name">Authority</div>
+                                <div class="desc">Who makes the final call?</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box" style="margin-top: 20px;">
+                            <p><strong>Key Insight:</strong> Start with business goals, not your product. Understand their strategic direction first.</p>
+                        </div>
+                    </div>
+                    <div class="lights-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 0;">
+                        <div class="light-box green">
+                            <h4>Use When...</h4>
+                            <ul>
+                                <li>Consultative mid-market/enterprise sales</li>
+                                <li>Strategic accounts with long cycles</li>
+                                <li>Selling transformation or major initiatives</li>
+                            </ul>
+                        </div>
+                        <div class="light-box red">
+                            <h4>Avoid When...</h4>
+                            <ul>
+                                <li>Transactional, quick-turn sales</li>
+                                <li>Prospects who don't know their goals</li>
+                                <li>Simple product purchases</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">6 / 14</div>
+        </div>
+
+        <!-- SLIDE 7: MEDDPICC -->
+        <div class="slide">
+            <div class="framework-header">
+                <h2><span>MEDDPICC</span></h2>
+                <span class="framework-badge">The Enterprise Heavyweight</span>
+            </div>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div>
+                        <div class="component-grid">
+                            <div class="component-box">
+                                <div class="letter">M</div>
+                                <div class="name">Metrics</div>
+                                <div class="desc">Quantifiable ROI</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">E</div>
+                                <div class="name">Economic Buyer</div>
+                                <div class="desc">Signs the check</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">D</div>
+                                <div class="name">Decision Criteria</div>
+                                <div class="desc">Boxes to tick</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">D</div>
+                                <div class="name">Decision Process</div>
+                                <div class="desc">Yes to Signed</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">P</div>
+                                <div class="name">Paper Process</div>
+                                <div class="desc">Legal/Security/Procurement</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">I</div>
+                                <div class="name">Identify Pain</div>
+                                <div class="desc">Cost of doing nothing</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">C</div>
+                                <div class="name">Champion</div>
+                                <div class="desc">Internal coach</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">C</div>
+                                <div class="name">Competition</div>
+                                <div class="desc">Who else is there?</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lights-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 0;">
+                        <div class="light-box green">
+                            <h4>Use When...</h4>
+                            <ul>
+                                <li>Complex deals: $50k+ ACV</li>
+                                <li>6+ stakeholders involved</li>
+                                <li>Heavy "Paper Process" (Legal/Security)</li>
+                                <li>Need bulletproof forecasting</li>
+                            </ul>
+                        </div>
+                        <div class="light-box red">
+                            <h4>Avoid When...</h4>
+                            <ul>
+                                <li>Short sales cycles (14 days or less)</li>
+                                <li>Single-player decisions</li>
+                                <li>Creates unnecessary admin work</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">7 / 14</div>
+        </div>
+
+        <!-- SLIDE 8: SPICED -->
+        <div class="slide">
+            <div class="framework-header">
+                <h2><span>SPICED</span></h2>
+                <span class="framework-badge">The Outcome-Obsessed Choice</span>
+            </div>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div>
+                        <div class="flow" style="margin-bottom: 20px;">
+                            <div class="flow-step">Situation</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Pain</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Impact</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Critical Event</div>
+                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-step">Decision</div>
+                        </div>
+                        <div class="component-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="component-box">
+                                <div class="letter">S</div>
+                                <div class="name">Situation</div>
+                                <div class="desc">Facts & figures of current state</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">P</div>
+                                <div class="name">Pain</div>
+                                <div class="desc">What's hurting right now?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">I</div>
+                                <div class="name">Impact</div>
+                                <div class="desc">Business cost if not fixed</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">C</div>
+                                <div class="name">Critical Event</div>
+                                <div class="desc">Deadline driving urgency</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">E</div>
+                                <div class="name">End Goal</div>
+                                <div class="desc">What does success look like?</div>
+                            </div>
+                            <div class="component-box">
+                                <div class="letter">D</div>
+                                <div class="name">Decision</div>
+                                <div class="desc">Roadmap to partnership</div>
+                            </div>
+                        </div>
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <p><strong>Focus:</strong> Understanding the GAP between current state and future state.</p>
+                        </div>
+                    </div>
+                    <div class="lights-container" style="display: flex; flex-direction: column; gap: 15px; margin-top: 0;">
+                        <div class="light-box green">
+                            <h4>Use When...</h4>
+                            <ul>
+                                <li>Recurring revenue (SaaS)</li>
+                                <li>Consultative selling / Digital transformation</li>
+                                <li>Need to build urgency (prevent stalling)</li>
+                                <li>Aligning Sales with Customer Success</li>
+                            </ul>
+                        </div>
+                        <div class="light-box red">
+                            <h4>Avoid When...</h4>
+                            <ul>
+                                <li>Commodity products</li>
+                                <li>Simple purchases where "Impact" feels like overkill</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">8 / 14</div>
+        </div>
+
+        <!-- SLIDE 9: Framework Comparison -->
+        <div class="slide">
+            <h2>Framework <span>Comparison</span></h2>
+            <div class="content-area">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Framework</th>
+                            <th>Complexity</th>
+                            <th>Deal Size</th>
+                            <th>Primary Focus</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BANT</strong></td>
+                            <td>Low</td>
+                            <td>SMB / Transactional</td>
+                            <td>Seller's budget/timeline requirements</td>
+                            <td>High-velocity triage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CHAMP</strong></td>
+                            <td>Medium</td>
+                            <td>Mid-Market</td>
+                            <td>Prospect's immediate pain points</td>
+                            <td>Inbound leads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GPCTBA</strong></td>
+                            <td>Medium/High</td>
+                            <td>Mid-Market / Enterprise</td>
+                            <td>Strategic business goals and plans</td>
+                            <td>Consultative sales</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MEDDPICC</strong></td>
+                            <td>High</td>
+                            <td>Enterprise</td>
+                            <td>Risk mitigation & internal process</td>
+                            <td>Complex multi-stakeholder</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SPICED</strong></td>
+                            <td>High</td>
+                            <td>Mid-Market / Enterprise</td>
+                            <td>Long-term business impact & outcomes</td>
+                            <td>SaaS / Transformation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box" style="margin-top: 25px;">
+                    <p><strong>Pro Tip:</strong> Don't be dogmatic. The best SDRs blend elements from multiple frameworks based on the specific deal context.</p>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">9 / 14</div>
+        </div>
+
+        <!-- SLIDE 10: Decision Matrix -->
+        <div class="slide">
+            <h2>Decision Matrix: <span>Selection Guide</span></h2>
+            <div class="content-area">
+                <p style="margin-bottom: 20px; font-size: 18px;">Match the methodology to your deal characteristics:</p>
+                <div class="decision-grid">
+                    <div class="decision-row">
+                        <div class="decision-condition">
+                            <span class="tag">Small</span>
+                            <span class="tag">Fast</span>
+                            <span class="tag">Single Manager</span>
+                            <span style="margin-left: 10px;">Keep it simple, move fast</span>
+                        </div>
+                        <div class="decision-result">BANT</div>
+                    </div>
+                    <div class="decision-row">
+                        <div class="decision-condition">
+                            <span class="tag">Medium</span>
+                            <span class="tag">Inbound</span>
+                            <span class="tag">Specific Fix</span>
+                            <span style="margin-left: 10px;">They're already feeling pain</span>
+                        </div>
+                        <div class="decision-result">CHAMP</div>
+                    </div>
+                    <div class="decision-row">
+                        <div class="decision-condition">
+                            <span class="tag">Strategic</span>
+                            <span class="tag">Goal-Focused</span>
+                            <span class="tag">Long Cycles</span>
+                            <span style="margin-left: 10px;">Start with their business objectives</span>
+                        </div>
+                        <div class="decision-result">GPCTBA</div>
+                    </div>
+                    <div class="decision-row">
+                        <div class="decision-condition">
+                            <span class="tag">Strategic</span>
+                            <span class="tag">SaaS</span>
+                            <span class="tag">Long-term ROI</span>
+                            <span style="margin-left: 10px;">Focus on business impact</span>
+                        </div>
+                        <div class="decision-result">SPICED</div>
+                    </div>
+                    <div class="decision-row">
+                        <div class="decision-condition">
+                            <span class="tag">Enterprise</span>
+                            <span class="tag">Huge</span>
+                            <span class="tag">Buying Committee</span>
+                            <span style="margin-left: 10px;">Focus on process & risk</span>
+                        </div>
+                        <div class="decision-result">MEDDPICC</div>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">10 / 14</div>
+        </div>
+
+        <!-- SLIDE 11: AI & 2026 Trends -->
+        <div class="slide">
+            <h2>Qualification in the <span>Age of AI</span></h2>
+            <div class="content-area">
+                <p style="margin-bottom: 25px; font-size: 18px;">2026 Trends Reshaping SDR Qualification:</p>
+                <div class="grid-4">
+                    <div class="trend-card">
+                        <div class="icon">&#128161;</div>
+                        <h4>Intent Signals</h4>
+                        <p>See who's researching your category before even picking up the phone. AI surfaces warm leads proactively.</p>
+                    </div>
+                    <div class="trend-card">
+                        <div class="icon">&#129302;</div>
+                        <h4>AI Co-Pilots</h4>
+                        <p>Real-time transcription tools (Gong, Chorus) flag qualification gaps during the call, not after.</p>
+                    </div>
+                    <div class="trend-card">
+                        <div class="icon">&#128187;</div>
+                        <h4>Digital SDRs</h4>
+                        <p>AI agents handle Tier 3 inbound leads 24/7, freeing humans for Tier 1 strategic accounts.</p>
+                    </div>
+                    <div class="trend-card">
+                        <div class="icon">&#127919;</div>
+                        <h4>Hyper-Personalization</h4>
+                        <p>Qualification isn't a script anymore - it's a conversation fueled by data insights and context.</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 25px;">
+                    <p><strong>The Shift:</strong> AI handles the "checking boxes" so you can focus on being human and building relationships.</p>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">11 / 14</div>
+        </div>
+
+        <!-- SLIDE 12: Perfect Handoff -->
+        <div class="slide">
+            <h2>The Perfect <span>SDR-to-AE Handoff</span></h2>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div class="summary-card">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>No Data Gaps</h4>
+                            <p>Every qualification field in the CRM must be populated. No blank fields, no guessing.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>The Story</h4>
+                            <p>Don't just list facts - tell the AE <strong>why</strong> the prospect is excited. Context matters.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Warm Introduction</h4>
+                            <p>Join the first 5 minutes of the discovery call to bridge the relationship personally.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">4</div>
+                        <div class="content">
+                            <h4>"Why Now?"</h4>
+                            <p>The most important question: Why are they talking to us today instead of six months ago?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <p><strong>The Gold Standard:</strong> The AE should feel like they already know the prospect before the first call.</p>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">12 / 14</div>
+        </div>
+
+        <!-- SLIDE 13: Sales Crime Warning -->
+        <div class="slide">
+            <div class="content-area">
+                <div class="warning-container">
+                    <div class="warning-icon">&#9888;</div>
+                    <div class="warning-title">The <span>"Sales Crime"</span> Warning</div>
+                    <p class="warning-subtitle">In 2026, the biggest mistake is <strong>Interrogative Selling</strong>.<br>If your qualification feels like a checklist to the prospect, they will shut down.</p>
+                    <div class="fix-box">
+                        <h4>The Fix</h4>
+                        <p>Layer your qualification into the <strong>natural flow</strong> of the conversation.<br>Use AI co-pilots to "check the boxes" in the background so you can focus on <strong>being human</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">13 / 14</div>
+        </div>
+
+        <!-- SLIDE 14: Summary -->
+        <div class="slide">
+            <h2>Summary & <span>Best Practices</span></h2>
+            <div class="content-area">
+                <div class="grid-2">
+                    <div class="summary-card">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>The 70/30 Rule</h4>
+                            <p>Listen more than you talk. The best qualifiers are the best listeners.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Be a Consultant</h4>
+                            <p>Ask the hard questions that make the prospect think. Don't be a vendor.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Disqualify Early</h4>
+                            <p>Your time is your most valuable asset. If it's a "No," make it a "No" quickly.</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">4</div>
+                        <div class="content">
+                            <h4>Iterate & Adapt</h4>
+                            <p>Methodologies aren't static. Adapt them to your specific industry and persona.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 40px; text-align: center;">
+                    <p style="font-size: 20px;"><strong>Remember:</strong> The methodology is a guide, not a script. The goal is qualified conversations, not completed checklists.</p>
+                </div>
+                <p style="text-align: center; margin-top: 30px; color: var(--zinc-blue); font-weight: 600;">Thank you! Questions?</p>
+            </div>
+            <div class="logo">Zinc</div>
+            <div class="slide-number">14 / 14</div>
+        </div>
+
+        <!-- Navigation dots -->
+        <div class="nav-dots">
+            <div class="nav-dot active" data-slide="0"></div>
+            <div class="nav-dot" data-slide="1"></div>
+            <div class="nav-dot" data-slide="2"></div>
+            <div class="nav-dot" data-slide="3"></div>
+            <div class="nav-dot" data-slide="4"></div>
+            <div class="nav-dot" data-slide="5"></div>
+            <div class="nav-dot" data-slide="6"></div>
+            <div class="nav-dot" data-slide="7"></div>
+            <div class="nav-dot" data-slide="8"></div>
+            <div class="nav-dot" data-slide="9"></div>
+            <div class="nav-dot" data-slide="10"></div>
+            <div class="nav-dot" data-slide="11"></div>
+            <div class="nav-dot" data-slide="12"></div>
+            <div class="nav-dot" data-slide="13"></div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        let currentSlide = 0;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                showSlide(currentSlide + 1);
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                showSlide(currentSlide - 1);
+            }
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                showSlide(parseInt(dot.dataset.slide));
+            });
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                showSlide(currentSlide + 1);
+            }
+            if (touchEndX - touchStartX > 50) {
+                showSlide(currentSlide - 1);
+            }
+        });
+    </script>
+</body>
+</html>
