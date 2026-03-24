@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mastering SDR Qualification Methodologies | Zinc Work</title>
+    <title>Mastering SDR Qualification Methodologies | Zinc</title>
     <style>
         * {
             margin: 0;
@@ -12,18 +12,27 @@
         }
 
         :root {
-            --zinc-pink: #F04DA9;
+            --zinc-fluoro: #2EEAA8;
             --zinc-dark: #131313;
+            --zinc-black: #000000;
+            --zinc-tint: #FAF7F5;
+            --zinc-peach: #FCDCD2;
+            --zinc-rose: #DDA99C;
+            --zinc-terracotta: #C48272;
+            --zinc-dark-terracotta: #8B5D50;
+            --zinc-burgundy: #512D2D;
+            --zinc-action: #E84B8A;
             --zinc-gray: #6C6C6C;
-            --zinc-blue: #0066FF;
-            --zinc-peach: #FFF5F0;
-            --green-light: #27ae60;
-            --red-light: #e74c3c;
+            --zinc-light-gray: #E5E5E5;
+            --zinc-white: #FFFFFF;
+            --zinc-success: #27ae60;
+            --zinc-warning: #e67e22;
+            --zinc-error: #e74c3c;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: var(--zinc-peach);
+            font-family: 'Maison Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--zinc-tint);
             color: var(--zinc-dark);
             overflow: hidden;
         }
@@ -43,7 +52,14 @@
             padding: 60px 80px;
             display: none;
             flex-direction: column;
-            background: var(--zinc-peach);
+            background: var(--zinc-tint);
+        }
+
+        .slide.with-flash {
+            background:
+                linear-gradient(135deg, transparent 40%, rgba(252,220,210,0.3) 40%, rgba(252,220,210,0.3) 60%, transparent 60%),
+                linear-gradient(135deg, transparent 50%, rgba(252,220,210,0.2) 50%, rgba(252,220,210,0.2) 70%, transparent 70%),
+                var(--zinc-tint);
         }
 
         .slide.active {
@@ -56,15 +72,40 @@
             right: 40px;
             font-size: 14px;
             color: var(--zinc-gray);
+            font-family: monospace;
+            letter-spacing: 0.5px;
         }
 
         .logo {
             position: absolute;
             top: 30px;
             left: 40px;
-            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-chip {
+            background: var(--zinc-black);
+            padding: 6px 12px 6px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-element {
+            width: 20px;
+            height: 20px;
+            background: var(--zinc-fluoro);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .logo-text {
+            color: var(--zinc-white);
             font-weight: 700;
-            color: var(--zinc-blue);
+            font-size: 16px;
+            letter-spacing: -0.5px;
         }
 
         h1 {
@@ -72,28 +113,26 @@
             font-weight: 700;
             margin-bottom: 20px;
             color: var(--zinc-dark);
+            letter-spacing: -1px;
         }
 
-        h1 span {
-            color: var(--zinc-pink);
-        }
+        h1 span { color: var(--zinc-fluoro); }
 
         h2 {
             font-size: 42px;
             font-weight: 600;
             margin-bottom: 30px;
             color: var(--zinc-dark);
+            letter-spacing: -0.5px;
         }
 
-        h2 span {
-            color: var(--zinc-pink);
-        }
+        h2 span { color: var(--zinc-fluoro); }
 
         h3 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 20px;
-            color: var(--zinc-blue);
+            color: var(--zinc-dark);
         }
 
         h4 {
@@ -124,7 +163,6 @@
             overflow: hidden;
         }
 
-        /* Grid Layouts */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -146,16 +184,15 @@
             margin-top: 20px;
         }
 
-        /* Cards */
         .card {
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .card h4 {
-            color: var(--zinc-blue);
+            color: var(--zinc-dark);
             margin-bottom: 12px;
             font-size: 16px;
         }
@@ -174,7 +211,7 @@
         .card.stat-card .stat-number {
             font-size: 36px;
             font-weight: 700;
-            color: var(--zinc-pink);
+            color: var(--zinc-fluoro);
             margin-bottom: 10px;
         }
 
@@ -183,36 +220,19 @@
             margin-bottom: 8px;
         }
 
-        .card ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .card li {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
-            color: var(--zinc-gray);
-        }
-
-        .card li:last-child {
-            border-bottom: none;
-        }
-
-        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         th {
-            background: var(--zinc-dark);
-            color: white;
+            background: var(--zinc-black);
+            color: var(--zinc-white);
             padding: 15px 20px;
             text-align: left;
             font-weight: 600;
@@ -221,27 +241,20 @@
 
         td {
             padding: 15px 20px;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid var(--zinc-light-gray);
             font-size: 15px;
             color: var(--zinc-gray);
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--zinc-tint); }
 
-        tr:hover td {
-            background: #fafafa;
-        }
-
-        /* Center slide (for title slides) */
         .slide.center {
             justify-content: center;
             align-items: center;
             text-align: center;
         }
 
-        /* Navigation dots */
         .nav-dots {
             position: absolute;
             bottom: 30px;
@@ -255,35 +268,25 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #ddd;
+            background: var(--zinc-light-gray);
             cursor: pointer;
             transition: background 0.3s;
         }
 
-        .nav-dot.active {
-            background: var(--zinc-pink);
-        }
+        .nav-dot.active { background: var(--zinc-fluoro); }
 
-        /* Highlight boxes */
         .highlight-box {
-            background: white;
-            border-left: 4px solid var(--zinc-pink);
+            background: var(--zinc-white);
+            border-left: 4px solid var(--zinc-fluoro);
             padding: 20px 25px;
             margin: 20px 0;
-            border-radius: 0 12px 12px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-radius: 0 16px 16px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
-        .highlight-box p {
-            font-size: 16px;
-            font-style: italic;
-        }
+        .highlight-box p { font-size: 16px; }
+        .highlight-box.warning { border-left-color: var(--zinc-terracotta); }
 
-        .highlight-box.warning {
-            border-left-color: var(--red-light);
-        }
-
-        /* Framework components grid */
         .component-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -291,23 +294,21 @@
             margin-top: 20px;
         }
 
-        .component-grid.cols-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
+        .component-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 
         .component-box {
-            background: white;
-            border-radius: 10px;
+            background: var(--zinc-white);
+            border-radius: 12px;
             padding: 18px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .component-box .letter {
             width: 40px;
             height: 40px;
-            background: var(--zinc-pink);
-            color: white;
+            background: var(--zinc-fluoro);
+            color: var(--zinc-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -330,7 +331,6 @@
             line-height: 1.4;
         }
 
-        /* Green/Red lights */
         .lights-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -339,19 +339,14 @@
         }
 
         .light-box {
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
-        .light-box.green {
-            border-top: 4px solid var(--green-light);
-        }
-
-        .light-box.red {
-            border-top: 4px solid var(--red-light);
-        }
+        .light-box.green { border-top: 4px solid var(--zinc-success); }
+        .light-box.red { border-top: 4px solid var(--zinc-error); }
 
         .light-box h4 {
             display: flex;
@@ -361,18 +356,10 @@
             font-size: 15px;
         }
 
-        .light-box.green h4 {
-            color: var(--green-light);
-        }
+        .light-box.green h4 { color: var(--zinc-success); }
+        .light-box.red h4 { color: var(--zinc-error); }
 
-        .light-box.red h4 {
-            color: var(--red-light);
-        }
-
-        .light-box ul {
-            list-style: none;
-            padding: 0;
-        }
+        .light-box ul { list-style: none; padding: 0; }
 
         .light-box li {
             padding: 6px 0;
@@ -386,7 +373,7 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: var(--green-light);
+            color: var(--zinc-success);
             font-weight: bold;
         }
 
@@ -394,11 +381,10 @@
             content: "✗";
             position: absolute;
             left: 0;
-            color: var(--red-light);
+            color: var(--zinc-error);
             font-weight: bold;
         }
 
-        /* Flow diagrams */
         .flow {
             display: flex;
             align-items: center;
@@ -409,21 +395,21 @@
         }
 
         .flow-step {
-            background: white;
+            background: var(--zinc-white);
             padding: 12px 20px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 14px;
             color: var(--zinc-dark);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .flow-arrow {
-            color: var(--zinc-pink);
+            color: var(--zinc-fluoro);
             font-size: 20px;
+            font-weight: bold;
         }
 
-        /* Timeline */
         .timeline {
             display: flex;
             justify-content: space-between;
@@ -440,7 +426,7 @@
             left: 60px;
             right: 60px;
             height: 4px;
-            background: linear-gradient(to right, var(--zinc-gray), var(--zinc-pink));
+            background: linear-gradient(to right, var(--zinc-gray), var(--zinc-fluoro));
             border-radius: 2px;
         }
 
@@ -454,8 +440,8 @@
         .timeline-item .year {
             width: 50px;
             height: 50px;
-            background: white;
-            border: 3px solid var(--zinc-pink);
+            background: var(--zinc-white);
+            border: 3px solid var(--zinc-fluoro);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -467,14 +453,14 @@
         }
 
         .timeline-item:last-child .year {
-            background: var(--zinc-pink);
-            color: white;
+            background: var(--zinc-fluoro);
+            color: var(--zinc-dark);
         }
 
         .timeline-item h4 {
             font-size: 16px;
             margin-bottom: 5px;
-            color: var(--zinc-blue);
+            color: var(--zinc-dark);
         }
 
         .timeline-item p {
@@ -482,7 +468,6 @@
             color: var(--zinc-gray);
         }
 
-        /* Decision matrix */
         .decision-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -493,10 +478,10 @@
         .decision-row {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            background: white;
-            border-radius: 10px;
+            background: var(--zinc-white);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
         .decision-condition {
@@ -509,8 +494,8 @@
         }
 
         .decision-result {
-            background: var(--zinc-pink);
-            color: white;
+            background: var(--zinc-fluoro);
+            color: var(--zinc-dark);
             padding: 15px 20px;
             font-weight: 600;
             font-size: 14px;
@@ -522,13 +507,13 @@
         .tag {
             display: inline-block;
             padding: 4px 10px;
-            background: #f0f0f0;
+            background: var(--zinc-peach);
             border-radius: 15px;
             font-size: 12px;
             font-weight: 500;
+            color: var(--zinc-dark-terracotta);
         }
 
-        /* Warning slide */
         .warning-container {
             display: flex;
             flex-direction: column;
@@ -550,9 +535,7 @@
             margin-bottom: 20px;
         }
 
-        .warning-title span {
-            color: var(--red-light);
-        }
+        .warning-title span { color: var(--zinc-error); }
 
         .warning-subtitle {
             font-size: 22px;
@@ -563,28 +546,25 @@
         }
 
         .fix-box {
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             padding: 25px 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid var(--green-light);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--zinc-success);
         }
 
         .fix-box h4 {
-            color: var(--green-light);
+            color: var(--zinc-success);
             margin-bottom: 10px;
         }
 
-        .fix-box p {
-            font-size: 16px;
-        }
+        .fix-box p { font-size: 16px; }
 
-        /* Trend cards */
         .trend-card {
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
         }
@@ -595,7 +575,7 @@
         }
 
         .trend-card h4 {
-            color: var(--zinc-blue);
+            color: var(--zinc-dark);
             font-size: 16px;
             margin-bottom: 10px;
         }
@@ -605,12 +585,11 @@
             flex: 1;
         }
 
-        /* Summary cards */
         .summary-card {
-            background: white;
-            border-radius: 12px;
+            background: var(--zinc-white);
+            border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
             display: flex;
             align-items: flex-start;
             gap: 15px;
@@ -619,8 +598,8 @@
         .summary-card .number {
             width: 36px;
             height: 36px;
-            background: var(--zinc-pink);
-            color: white;
+            background: var(--zinc-fluoro);
+            color: var(--zinc-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -635,11 +614,8 @@
             font-size: 16px;
         }
 
-        .summary-card .content p {
-            font-size: 14px;
-        }
+        .summary-card .content p { font-size: 14px; }
 
-        /* Framework header */
         .framework-header {
             display: flex;
             align-items: center;
@@ -648,29 +624,34 @@
         }
 
         .framework-badge {
-            background: var(--zinc-blue);
-            color: white;
+            background: var(--zinc-peach);
+            color: var(--zinc-dark-terracotta);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <div class="presentation">
         <!-- SLIDE 1: Title -->
-        <div class="slide active center">
+        <div class="slide active center with-flash">
             <h1>Mastering SDR <span>Qualification</span></h1>
             <h1 style="font-size: 48px;">Methodologies</h1>
             <p class="subtitle">Navigating the 2026 Sales Landscape: From BANT to MEDDPICC & Beyond</p>
             <p style="margin-top: 40px; font-size: 16px; color: var(--zinc-gray);">Strategic Sales Development | March 2026</p>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">1 / 14</div>
         </div>
 
         <!-- SLIDE 2: Why Qualification is Your Superpower -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>Why Qualification is Your <span>Superpower</span></h2>
             <div class="content-area">
                 <div class="grid-4">
@@ -699,12 +680,17 @@
                     <p><strong>Key Insight:</strong> In 2026, the most successful SDR teams are measured by conversion quality, not just meeting volume.</p>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">2 / 14</div>
         </div>
 
         <!-- SLIDE 3: Evolution of Frameworks -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>The <span>Evolution</span> of Frameworks</h2>
             <div class="content-area">
                 <div class="timeline">
@@ -733,12 +719,17 @@
                     <p><strong>The Shift:</strong> From asking "Do you have budget?" to understanding "What business outcome will this unlock?"</p>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">3 / 14</div>
         </div>
 
         <!-- SLIDE 4: BANT -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="framework-header">
                 <h2><span>BANT</span></h2>
                 <span class="framework-badge">The "Old School" Classic</span>
@@ -793,12 +784,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">4 / 14</div>
         </div>
 
         <!-- SLIDE 5: CHAMP -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="framework-header">
                 <h2><span>CHAMP</span></h2>
                 <span class="framework-badge">The Inbound Specialist</span>
@@ -808,11 +804,11 @@
                     <div>
                         <div class="flow">
                             <div class="flow-step">Challenges</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Authority</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Money</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Prioritization</div>
                         </div>
                         <div class="component-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 20px;">
@@ -861,12 +857,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">5 / 14</div>
         </div>
 
         <!-- SLIDE 6: GPCTBA -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="framework-header">
                 <h2><span>GPCTBA</span></h2>
                 <span class="framework-badge">The Goal-Oriented Framework</span>
@@ -930,12 +931,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">6 / 14</div>
         </div>
 
         <!-- SLIDE 7: MEDDPICC -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="framework-header">
                 <h2><span>MEDDPICC</span></h2>
                 <span class="framework-badge">The Enterprise Heavyweight</span>
@@ -1007,12 +1013,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">7 / 14</div>
         </div>
 
         <!-- SLIDE 8: SPICED -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="framework-header">
                 <h2><span>SPICED</span></h2>
                 <span class="framework-badge">The Outcome-Obsessed Choice</span>
@@ -1022,13 +1033,13 @@
                     <div>
                         <div class="flow" style="margin-bottom: 20px;">
                             <div class="flow-step">Situation</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Pain</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Impact</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Critical Event</div>
-                            <div class="flow-arrow">&#8594;</div>
+                            <div class="flow-arrow">→</div>
                             <div class="flow-step">Decision</div>
                         </div>
                         <div class="component-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -1087,12 +1098,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">8 / 14</div>
         </div>
 
         <!-- SLIDE 9: Framework Comparison -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>Framework <span>Comparison</span></h2>
             <div class="content-area">
                 <table>
@@ -1147,12 +1163,17 @@
                     <p><strong>Pro Tip:</strong> Don't be dogmatic. The best SDRs blend elements from multiple frameworks based on the specific deal context.</p>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">9 / 14</div>
         </div>
 
         <!-- SLIDE 10: Decision Matrix -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>Decision Matrix: <span>Selection Guide</span></h2>
             <div class="content-area">
                 <p style="margin-bottom: 20px; font-size: 18px;">Match the methodology to your deal characteristics:</p>
@@ -1204,33 +1225,38 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">10 / 14</div>
         </div>
 
         <!-- SLIDE 11: AI & 2026 Trends -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>Qualification in the <span>Age of AI</span></h2>
             <div class="content-area">
                 <p style="margin-bottom: 25px; font-size: 18px;">2026 Trends Reshaping SDR Qualification:</p>
                 <div class="grid-4">
                     <div class="trend-card">
-                        <div class="icon">&#128161;</div>
+                        <div class="icon">💡</div>
                         <h4>Intent Signals</h4>
                         <p>See who's researching your category before even picking up the phone. AI surfaces warm leads proactively.</p>
                     </div>
                     <div class="trend-card">
-                        <div class="icon">&#129302;</div>
+                        <div class="icon">🤖</div>
                         <h4>AI Co-Pilots</h4>
                         <p>Real-time transcription tools (Gong, Chorus) flag qualification gaps during the call, not after.</p>
                     </div>
                     <div class="trend-card">
-                        <div class="icon">&#128187;</div>
+                        <div class="icon">💻</div>
                         <h4>Digital SDRs</h4>
                         <p>AI agents handle Tier 3 inbound leads 24/7, freeing humans for Tier 1 strategic accounts.</p>
                     </div>
                     <div class="trend-card">
-                        <div class="icon">&#127919;</div>
+                        <div class="icon">🎯</div>
                         <h4>Hyper-Personalization</h4>
                         <p>Qualification isn't a script anymore - it's a conversation fueled by data insights and context.</p>
                     </div>
@@ -1239,12 +1265,17 @@
                     <p><strong>The Shift:</strong> AI handles the "checking boxes" so you can focus on being human and building relationships.</p>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">11 / 14</div>
         </div>
 
         <!-- SLIDE 12: Perfect Handoff -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>The Perfect <span>SDR-to-AE Handoff</span></h2>
             <div class="content-area">
                 <div class="grid-2">
@@ -1281,15 +1312,20 @@
                     <p><strong>The Gold Standard:</strong> The AE should feel like they already know the prospect before the first call.</p>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">12 / 14</div>
         </div>
 
         <!-- SLIDE 13: Sales Crime Warning -->
-        <div class="slide">
+        <div class="slide with-flash">
             <div class="content-area">
                 <div class="warning-container">
-                    <div class="warning-icon">&#9888;</div>
+                    <div class="warning-icon">⚠️</div>
                     <div class="warning-title">The <span>"Sales Crime"</span> Warning</div>
                     <p class="warning-subtitle">In 2026, the biggest mistake is <strong>Interrogative Selling</strong>.<br>If your qualification feels like a checklist to the prospect, they will shut down.</p>
                     <div class="fix-box">
@@ -1298,12 +1334,17 @@
                     </div>
                 </div>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">13 / 14</div>
         </div>
 
         <!-- SLIDE 14: Summary -->
-        <div class="slide">
+        <div class="slide with-flash">
             <h2>Summary & <span>Best Practices</span></h2>
             <div class="content-area">
                 <div class="grid-2">
@@ -1339,9 +1380,14 @@
                 <div class="highlight-box" style="margin-top: 40px; text-align: center;">
                     <p style="font-size: 20px;"><strong>Remember:</strong> The methodology is a guide, not a script. The goal is qualified conversations, not completed checklists.</p>
                 </div>
-                <p style="text-align: center; margin-top: 30px; color: var(--zinc-blue); font-weight: 600;">Thank you! Questions?</p>
+                <p style="text-align: center; margin-top: 30px; color: var(--zinc-fluoro); font-weight: 600;">Thank you! Questions?</p>
             </div>
-            <div class="logo">Zinc</div>
+            <div class="logo">
+                <div class="logo-chip">
+                    <div class="logo-element"></div>
+                    <span class="logo-text">Zinc</span>
+                </div>
+            </div>
             <div class="slide-number">14 / 14</div>
         </div>
 
@@ -1394,22 +1440,14 @@
             });
         });
 
-        // Touch support for mobile
         let touchStartX = 0;
-        let touchEndX = 0;
-
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         });
-
         document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) {
-                showSlide(currentSlide + 1);
-            }
-            if (touchEndX - touchStartX > 50) {
-                showSlide(currentSlide - 1);
-            }
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) showSlide(currentSlide + 1);
+            if (touchEndX - touchStartX > 50) showSlide(currentSlide - 1);
         });
     </script>
 </body>
