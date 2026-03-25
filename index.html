@@ -271,6 +271,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-top: 20px;
+            grid-auto-rows: 1fr;
         }
 
         .component-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -281,6 +282,9 @@
             padding: 18px;
             text-align: center;
             box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .component-box .letter {
@@ -294,7 +298,8 @@
             justify-content: center;
             font-weight: 700;
             font-size: 18px;
-            margin: 0 auto 10px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
         }
 
         .component-box .name {
@@ -302,6 +307,10 @@
             color: var(--zinc-dark);
             font-size: 14px;
             margin-bottom: 6px;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .component-box .desc {
